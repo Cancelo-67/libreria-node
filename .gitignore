@@ -1,0 +1,4 @@
+mongodb
+request.http
+node_modules
+.env
