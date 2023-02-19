@@ -33,7 +33,9 @@ router.put('/libros/:id', (req,res)=>{
         .updateOne({_id:id},{$set: { titulo, descripcion, imagen, autor, año }})
         .then((libro)=>res.json(libro))
         .catch(err=>res.json(err))
-})
+});
+
+//Eliminar un libro por la id
 
 router.delete('/libros/:id', (req,res)=>{
     const { id } = req.params;
@@ -41,7 +43,7 @@ router.delete('/libros/:id', (req,res)=>{
         .remove({_id: id})
         .then(()=>res.json(libro))
         .catch(err=>res.json(err))
-})
+});
 
 
 module.exports = router;

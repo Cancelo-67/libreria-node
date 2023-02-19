@@ -1,9 +1,9 @@
 const express = require('express')
-const autorEsquema = require("../modelos/modeloautors")
+const autorEsquema = require("../modelos/modeloAutor")
 const router = express.Router();
 
 //Obtener todos los autors
-router.get('/autores', async(req,res) => {
+router.get('/autores', async (req,res) => {
     autorEsquema.find()
     .then(autor => res.json(autor))
     .catch(err=> res.json(err))
@@ -21,8 +21,16 @@ router.get('/autores/:id', async (req,res)=>{
 //Crear autor
 router.post('/autores', async (req,res)=>{
     const autor = new autorEsquema(req.body);
-    await autor.save()
-    res.json(autor);
+    const comprobacionNombre = await autorEsquema.findOne({nombre: autor.nombre})
+    const comprobacionApellido1 = await autorEsquema.findOne({primerApellido: autor.primerApellido});
+    const comprobacionApellido2 = await autorEsquema.findOne({sedungoApellido: autor.sedungoApellido});
+    if (!comprobacionNombre || !comprobacionApellido1 || comprobacionApellido2) {
+        await autor.save()
+        res.json(autor);
+    } else {
+        res.send("Este autor ya esta creado")
+    }
+
 })
 
 //Actualizar autor por id
@@ -34,7 +42,7 @@ router.put('/autores/:id', (req,res)=>{
         .then((autor)=>res.json(autor))
         .catch(err=>res.json(err))
 })
-
+//Elimina un solo Autor
 router.delete('/autores/:id', (req,res)=>{
     const { id } = req.params;
     autorEsquema
