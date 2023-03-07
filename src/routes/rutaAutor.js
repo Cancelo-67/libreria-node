@@ -2,7 +2,7 @@ const express = require('express')
 const autorEsquema = require("../modelos/modeloAutor")
 const router = express.Router();
 
-//Obtener todos los autors
+//Obtener todos los autores
 router.get('/autores', async (req,res) => {
     autorEsquema.find()
     .then(autor => res.json(autor))
@@ -24,7 +24,7 @@ router.post('/autores', async (req,res)=>{
     const comprobacionNombre = await autorEsquema.findOne({nombre: autor.nombre})
     const comprobacionApellido1 = await autorEsquema.findOne({primerApellido: autor.primerApellido});
     const comprobacionApellido2 = await autorEsquema.findOne({sedungoApellido: autor.sedungoApellido});
-    if (!comprobacionNombre || !comprobacionApellido1 || comprobacionApellido2) {
+    if (!comprobacionNombre || !comprobacionApellido1 || !comprobacionApellido2) {
         await autor.save()
         res.json(autor);
     } else {
@@ -47,8 +47,8 @@ router.delete('/autores/:id', (req,res)=>{
     const { id } = req.params;
     autorEsquema
         .remove({_id: id})
-        .then(()=>res.json(autor))
-        .catch(err=>res.json(err))
+        .then((autor)=>res.json(autor))
+        .catch(()=>res.send('Este autor no se encuentra en la base de datos.'))
 })
 
 

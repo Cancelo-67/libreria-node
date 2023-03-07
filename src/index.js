@@ -5,7 +5,7 @@ const rutaLibros = require("./routes/rutaLibro")
 const rutaAutores = require("./routes/rutaAutor")
 const PORT = process.env.PORT || 9000
 const app = express();
-const conectionBD=require('./lib/mongoose')
+const conectionBD = require('./lib/mongoose')
 
 //Llamar funcion para conexion mongodb
 conectionBD()

@@ -6,7 +6,8 @@ const libroEsquema = mongoose.Schema({
     descripcion: String,
     imagen: String,
     autor: String,
-    año: Number
+    año: Number,
+    idAutor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Autor'}]
 });
 
 module.exports = mongoose.model('libros', libroEsquema);
