@@ -29,11 +29,23 @@ router.post("/libros", async (req, res) => {
 //Actualizar libro por id
 router.put("/libros/:id", (req, res) => {
   const { id } = req.params;
-  const { titulo, descripcion, imagen, autor, año } = req.body;
+  const { titulo, descripcion, imagen, autor, año, genero, precio, cantidad } =
+    req.body;
   libroEsquema
     .updateOne(
       { _id: id },
-      { $set: { titulo, descripcion, imagen, autor, año } }
+      {
+        $set: {
+          titulo,
+          descripcion,
+          imagen,
+          autor,
+          año,
+          genero,
+          precio,
+          cantidad,
+        },
+      }
     )
     .then((libro) => res.json(libro))
     .catch((err) => res.json(err));
