@@ -1,6 +1,8 @@
 const express = require("express");
 const usuarioEsquema = require("../modelos/modeloUsuarios");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const saltRound = 10;
 
 //Obtener todos los usuarios
 router.get("/usuarios", async (req, res) => {
@@ -21,18 +23,28 @@ router.get("/usuarios/:id", (req, res) => {
 
 //Crear usuario
 router.post("/usuarios", async (req, res) => {
-  const usuario = new usuarioEsquema(req.body);
-  const comprobacionEmail = await usuarioEsquema.findOne({
-    email: usuario.email,
-  });
+  const { email, nombreusuario, contraseña } = req.body;
+
+  const comprobacionEmail = await usuarioEsquema.findOne({ email });
   const comprobacionNombreusuario = await usuarioEsquema.findOne({
-    nombreusuario: usuario.nombreusuario,
+    nombreusuario,
   });
-  if (!comprobacionNombreusuario || !comprobacionEmail) {
+
+  if (!comprobacionNombreusuario && !comprobacionEmail) {
+    // Hash de la contraseña
+    const hashContraseña = await bcrypt.hash(contraseña, saltRound);
+
+    // Crear el usuario con la contraseña cifrada
+    const usuario = new usuarioEsquema({
+      email,
+      nombreusuario,
+      contraseña: hashContraseña,
+    });
+
     await usuario.save();
     res.json(usuario);
   } else {
-    res.send("Este nombre ya existe.");
+    res.send("Este nombre de usuario o email ya existe.");
   }
 });
 
@@ -49,7 +61,7 @@ router.put("/usuarios/:id", (req, res) => {
 router.delete("/usuarios/:id", (req, res) => {
   const { id } = req.params;
   usuarioEsquema
-    .remove({ _id: id })
+    .deleteOne({ _id: id })
     .then((usuario) => res.json(usuario))
     .catch((err) => res.json(err));
 });
