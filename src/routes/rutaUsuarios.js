@@ -52,9 +52,12 @@ router.post("/usuarios", async (req, res) => {
 //Actualizar usuario
 router.put("/usuarios/:id", (req, res) => {
   const { id } = req.params;
-  const { nombre, apellido, edad } = req.body;
+  const { nombreusuario, nombre, apellido, email, contrasena, cart } = req.body;
   usuarioEsquema
-    .updateOne({ _id: id }, { $set: { nombre, apellido, edad } })
+    .updateOne(
+      { _id: id },
+      { $set: { nombreusuario, nombre, apellido, email, contrasena, cart } }
+    )
     .then((usuario) => res.json(usuario))
     .catch((err) => res.json(err));
 });
