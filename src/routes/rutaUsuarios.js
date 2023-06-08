@@ -23,22 +23,22 @@ router.get("/usuarios/:id", (req, res) => {
 
 //Crear usuario
 router.post("/usuarios", async (req, res) => {
-  const { email, nombreusuario, contraseña } = req.body;
+  const { nombreusuario, nombre, apellido, email, contrasena } = req.body;
 
   const comprobacionEmail = await usuarioEsquema.findOne({ email });
   const comprobacionNombreusuario = await usuarioEsquema.findOne({
     nombreusuario,
   });
-
-  if (!comprobacionNombreusuario && !comprobacionEmail) {
+  if (!comprobacionNombreusuario || !comprobacionEmail) {
     // Hash de la contraseña
-    const hashContraseña = await bcrypt.hash(contraseña, saltRound);
-
+    const hashContrasena = await bcrypt.hash(contrasena, saltRound);
     // Crear el usuario con la contraseña cifrada
     const usuario = new usuarioEsquema({
-      email,
       nombreusuario,
-      contraseña: hashContraseña,
+      nombre,
+      apellido,
+      email,
+      contrasena: contrasena,
     });
 
     await usuario.save();

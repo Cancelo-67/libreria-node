@@ -9,6 +9,7 @@ const libroEsquema = mongoose.Schema({
   genero: String,
   precio: Number,
   cantidad: Number,
+  calificacion: Number,
 });
 
 module.exports = mongoose.model("libros", libroEsquema);

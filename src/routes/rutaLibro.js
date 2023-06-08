@@ -29,8 +29,17 @@ router.post("/libros", async (req, res) => {
 //Actualizar libro por id
 router.put("/libros/:id", (req, res) => {
   const { id } = req.params;
-  const { titulo, descripcion, imagen, autor, año, genero, precio, cantidad } =
-    req.body;
+  const {
+    titulo,
+    descripcion,
+    imagen,
+    autor,
+    año,
+    genero,
+    precio,
+    cantidad,
+    calificacion,
+  } = req.body;
   libroEsquema
     .updateOne(
       { _id: id },
@@ -44,6 +53,7 @@ router.put("/libros/:id", (req, res) => {
           genero,
           precio,
           cantidad,
+          calificacion,
         },
       }
     )
