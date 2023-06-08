@@ -3,6 +3,7 @@ require("./lib/mongoose");
 const rutaUsuarios = require("./routes/rutaUsuarios");
 const rutaLibros = require("./routes/rutaLibro");
 const rutaAutores = require("./routes/rutaAutor");
+const rutaComentarios = require("./routes/rutaComentario");
 const PORT = process.env.PORT || 9000;
 const app = express();
 const conectionBD = require("./lib/mongoose");
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api", rutaUsuarios);
 app.use("/api", rutaLibros);
 app.use("/api", rutaAutores);
+app.use("/api", rutaComentarios);
 
 app.get("/", (req, res) => {
   res.send(" Bienvenido a mi API ");
