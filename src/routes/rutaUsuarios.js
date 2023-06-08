@@ -23,8 +23,7 @@ router.get("/usuarios/:id", (req, res) => {
 
 //Crear usuario
 router.post("/usuarios", async (req, res) => {
-  const { nombreusuario, nombre, apellido, email, contrasena, favoritos } =
-    req.body;
+  const { nombreusuario, nombre, apellido, email, contrasena, cart } = req.body;
 
   const comprobacionEmail = await usuarioEsquema.findOne({ email });
   const comprobacionNombreusuario = await usuarioEsquema.findOne({
@@ -40,7 +39,7 @@ router.post("/usuarios", async (req, res) => {
       apellido,
       email,
       contrasena: contrasena,
-      favoritos,
+      cart,
     });
 
     await usuario.save();

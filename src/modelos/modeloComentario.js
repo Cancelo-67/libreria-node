@@ -6,4 +6,4 @@ const comentarioEsquema = mongoose.Schema({
   comentario: String,
 });
 
-module.exports = mongoose.model("calificacion", comentarioEsquema);
+module.exports = mongoose.model("comentario", comentarioEsquema);

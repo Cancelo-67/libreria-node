@@ -7,7 +7,7 @@ const usuarioEsquema = mongoose.Schema({
   email: String,
   edad: Number,
   contrasena: String,
-  favoritos: Array,
+  cart: Array,
 });
 
 module.exports = mongoose.model("usuario", usuarioEsquema);
