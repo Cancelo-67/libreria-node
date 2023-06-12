@@ -25,6 +25,20 @@ router.post("/comentario", async (req, res) => {
   await comentario.save();
   res.json(comentario);
 });
+//Editar comentario
+router.put("/comentario/:id", (req, res) => {
+  const { id } = req.params;
+  const { id_Usuario, id_Libro, nombre, comentario } = req.body;
+  comentarioEsquema
+    .updateOne(
+      { _id: id },
+      {
+        $set: { id_Usuario, id_Libro, nombre, comentario },
+      }
+    )
+    .then((comentario) => res.json(comentario))
+    .catch((err) => res.json(err));
+});
 
 //Elimina un solo Comentario
 router.delete("/comentario/:id", (req, res) => {
